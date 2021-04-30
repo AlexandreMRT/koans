@@ -15,6 +15,10 @@
 #
 def triangle(a, b, c)
   sides = {a: a, b: b, c: c}
+  raise TriangleError, "Values should be greater than 0" if a <= 0 || b <= 0 || c <= 0
+
+  raise TriangleError, "Two sides of the triangle should be less than or equal to the other side" if (a + b) <= c || a + c <= b || b + c <= a
+
   if sides.values.uniq.count == 1
     return :equilateral
   elsif sides.values.uniq.count == 2
@@ -26,4 +30,7 @@ end
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError < StandardError
+  def triangle(a, b, c)
+    puts 'chega aqui ?'
+  end
 end
