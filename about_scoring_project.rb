@@ -30,7 +30,32 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  points = 0
+  hash = dice.tally
+
+  # check for numbers 1
+
+  if hash.keys.include?(1)
+    hash.fetch(1) >= 3 ? points += 1000 + (hash.fetch(1) % 3 * 100) : points += (hash.fetch(1) % 3 * 100)
+  end
+
+  # check for numbers 5
+
+  if hash.keys.include?(5)
+    hash.fetch(5) >= 3 ? points += 100 * 5 + (hash.fetch(5) % 3 * 50) : points += (hash.fetch(5) % 5 * 50)
+  end
+
+  # all other numbers
+
+  has_three_diferrent_numbers = hash.select{|k,v| v >= 3}
+
+  if has_three_diferrent_numbers.keys.size >= 1
+    unless has_three_diferrent_numbers.keys.include?(1) || has_three_diferrent_numbers.keys.include?(5)
+      points += 100 * has_three_diferrent_numbers.keys.first
+    end
+  end
+
+  points
 end
 
 class AboutScoringProject < Neo::Koan
@@ -73,5 +98,4 @@ class AboutScoringProject < Neo::Koan
     assert_equal 1200, score([1,1,1,1,1])
     assert_equal 1150, score([1,1,1,5,1])
   end
-
 end
